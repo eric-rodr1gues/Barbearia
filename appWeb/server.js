@@ -1,5 +1,5 @@
 const express = require('express')
-
+const router = require("./mvc/routes/config")
 class Server{ // classe tem inical maiuscula sempre
 // a # dxa privado
     app
@@ -8,6 +8,10 @@ class Server{ // classe tem inical maiuscula sempre
     constructor(port){
         this.app = express() // armazena o express dentro do app
         this.port = port
+
+        this.app.use(router)
+        this.app.set("view engine", "ejs")
+        this.app.set("views","mvc/views")
     }
 
     listen(){
