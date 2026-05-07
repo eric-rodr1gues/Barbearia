@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreateView</title>
+</head>
+<body>
+    <h1>Cadastro de Usuário</h1>
+    <form>
+        <div>
+            <div>
+                <label for="username">Username</label>
+            </div>
+            <div>
+                <input type="text" id="username">
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="email">E-mail</label>
+            </div>
+            <div>
+                <input type="email" id="email">
+            </div>
+        </div>
+        <div>
+            <div>
+                <label for="senha">Senha</label>
+            </div>
+            <div>
+                <input type="password" id="senha">
+            </div>
+        </div>
+        <div>
+            <button id="btnCadastrarUsuario" type="submit">Cadastrar</button>
+        </div>
+
+    </form>
+
+</body>
+<script>
+
+    const btnCadastrarUsuario = document.getElementById("btnCadastrarUsuario")
+    
+    btnCadastrarUsuario.addEventListener("click", cadastrarUsuario)
+
+    async function cadastrarUsuario(e){
+        e.preventDefault()
+
+        const username = document.getElementById("username")
+        const email = document.getElementById("email")
+        const senha = document.getElementById("senha")
+
+        console.log(username.value)
+
+        const url = "/user/create"
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                username: username.value,
+                email: email.value,
+                senha: senha.value
+            }
+            )
+        })
+
+        const data = await response.json()
+
+        if(!response.ok){
+            console.log("Ocorreu um erro na requisição") 
+        }
+
+        console.log(data)
+
+    }
+
+</script>
+</html>
