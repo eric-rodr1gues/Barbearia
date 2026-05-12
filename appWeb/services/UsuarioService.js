@@ -60,7 +60,7 @@ class UsuarioService {
     }
 
     async cadastrarUsuario(username, email, senha){
-        const usuario = new Usuario(username, email,senha)
+        const usuario = new Usuario(username, email, senha)
 
         const id = await this.#usuarioSchema.create({
             username: usuario.nome,
@@ -81,7 +81,7 @@ class UsuarioService {
             const model = new Usuario(
                 username || usuario.username, 
                 email || usuario.email, 
-                password || usuario.password)
+                senha || usuario.password)
 
             const affectedRows = await this.#usuarioSchema.update({
                 username: model.nome,
@@ -94,9 +94,11 @@ class UsuarioService {
             }
         )
         
-        rows = affectedRows
+            rows = affectedRows
+    
+        }
         return rows;
-    } 
+     
     }
 }
 

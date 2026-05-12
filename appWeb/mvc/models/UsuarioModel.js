@@ -1,9 +1,10 @@
 class Usuario{
 
     #id
+    #nome
     #email
     #senha
-    #nome
+    
 
     constructor(nome, email, senha){
         this.#validarEmail(email)

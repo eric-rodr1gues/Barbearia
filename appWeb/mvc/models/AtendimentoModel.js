@@ -8,7 +8,7 @@ class Atendimento{
     tipoServico
     profissional
 
-    constructor(nomecliente, telefone, horario, data, dataNascimento, tipoServico, profissional){
+    constructor(nomeCliente, telefone, horario, data, dataNascimento, tipoServico, profissional){
         this.nomeCliente = nomeCliente
         this.telefone = telefone
         this.horario = horario

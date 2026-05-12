@@ -1,4 +1,5 @@
 const UsuarioService = require("../../services/UsuarioService");
+
 class UsuarioController{
     constructor() {
         this.usuarioService = new UsuarioService()
@@ -24,7 +25,6 @@ class UsuarioController{
     }
 
     async usuarioPostAsync(req, res){
-        console.log(req.body)
         const id = await this.usuarioService.cadastrarUsuario(
             req.body.username,
             req.body.email,
@@ -41,7 +41,6 @@ class UsuarioController{
     }
 
     async usuarioPutAsync(req, res){
-        console.log(req.body)
         const affectedRows = await this.usuarioService.atualizarUsuario(
             req.body.id,
             req.body.username,

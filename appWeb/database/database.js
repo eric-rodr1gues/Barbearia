@@ -6,6 +6,6 @@ module.exports = {
     database: 'mvc',
     define: {
         timestamps: true,
-        underscored: true,
+        underscored: true
     },
 };
