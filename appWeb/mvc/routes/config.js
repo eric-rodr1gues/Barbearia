@@ -12,12 +12,12 @@ router.get("/user/edit/:id", (req, res) => UsuarioController.usuarioEditView(req
 router.get("/user/list", (req, res) => UsuarioController.usuarioListView(req, res))
 router.delete("/user/delete/:id", (req, res) => UsuarioController.usuarioDeleteAsync(req, res))
 
-
-/*router.get("/lista", AtendimentoController.listar)
-router.get("/criar", AtendimentoController.cadastrarView)
-router.post("/criar", AtendimentoController.cadastrar)
-router.get("/editar", AtendimentoController.atualizarView)
-router.post("/editar", AtendimentoController.atualizar)
-router.post("/excluir", AtendimentoController.excluir)*/
+router.get("/atendimento/index", (req, res) => AtendimentoController.index(req, res))
+router.post("/atendimento/create", (req, res) => AtendimentoController.atendimentoPostAsync(req, res))
+router.get("/atendimento/create", (req, res) => AtendimentoController.atendimentoCreateView(req, res))
+router.put("/atendimento/edit", (req, res) =>AtendimentoController.atendimentoPutAsync(req, res))
+router.get("/atendimento/edit/:id", (req, res) => AtendimentoController.atendimentoEditView(req, res))
+router.get("/atendimento/list", (req, res) => AtendimentoController.atendimentoListView(req, res))
+router.delete("/atendimento/delete/:id", (req, res) => AtendimentoController.atendimentoDeleteAsync(req, res))
 
 module.exports = router
