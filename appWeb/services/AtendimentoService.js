@@ -1,6 +1,8 @@
 const Atendimento = require("../mvc/models/AtendimentoModel");
 const AtendimentoSchema = require("../schemas/AtendimentoSchema");
 const UsuarioSchema = require("../schemas/UsuarioSchema");
+const { Op } = require('sequelize');
+const moment = require('moment');
 
 class AtendimentoService {
     #atendimentoSchema
@@ -11,8 +13,7 @@ class AtendimentoService {
 
     async buscarAtendimento(id) {
         const dado = await this.#atendimentoSchema.findOne({
-            where: { id: id },
-            include: "users"
+            where: { id: id }
         });
         
         if(!dado){
@@ -26,7 +27,7 @@ class AtendimentoService {
             dado.data,
             dado.dataNascimento,
             dado.tipoServico,
-            dado.users.id
+            dado.profissional
         )
 
         atendimento.id = dado.id
@@ -47,12 +48,7 @@ class AtendimentoService {
     async buscarTodosAtendimentos(){
 
         const atendimentos = []
-        const dados = await this.#atendimentoSchema.findAll({
-            include: [{
-                model: UsuarioSchema,
-                as: "users"
-            }]
-        });
+        const dados = await this.#atendimentoSchema.findAll();
 
         for(const atendimento of dados){
 
@@ -90,19 +86,82 @@ class AtendimentoService {
             data, 
             dataNascimento, 
             tipoServico, 
-            profissional)
+            profissional
+        )
 
-        const a = await this.#atendimentoSchema.create({
-            nomeCliente: atendimento.nomeCliente,
-            telefone: atendimento.telefone,
-            horario: atendimento.horario,
-            data: atendimento.data,
-            dataNascimento: atendimento.dataNascimento,
-            tipoServico: atendimento.tipoServico,
-            profissional: atendimento.profissional
-        })
+        let a = null
 
-        return a;
+        let atendimentoIntervalo = null 
+        if(tipoServico == 'Corte de cabelo'){
+            const horarios = moment(horario, "HH:mm").add(45,'minutes').format("HH:mm") //horario -> horarioAtendimento e horarios -> horario
+            const row = await this.#atendimentoSchema.findOne({
+                where:{
+                    tipoServico: 'Corte de cabelo',
+                    horario: {
+                        [Op.between]: [horario,horarios] //entre horarios
+                    }
+                }
+            })
+            if(row){
+                atendimentoIntervalo = row.horario
+            }
+        } else if(tipoServico == 'Barba'){
+            const horarios = moment(horario, "HH:mm").add(30,'minutes').format("HH:mm")
+            const row = await this.#atendimentoSchema.findOne({
+                where:{
+                    tipoServico: 'Barba',
+                    horario: {
+                        [Op.between]: [horario,horarios] 
+                    }
+                }
+            })
+            if(row){
+                atendimentoIntervalo = row.horario
+            }
+        } else if(tipoServico == 'Sobrancelha'){
+            const horarios = moment(horario, "HH:mm").add(25,'minutes').format("HH:mm")
+            const row = await this.#atendimentoSchema.findOne({
+                where:{
+                    tipoServico: 'Sobrancelha',
+                    horario: {
+                        [Op.between]: [horario,horarios] 
+                    }
+                }
+            })
+            if(row){
+                atendimentoIntervalo = row.horario
+            }    
+        } else{
+            const horarios = moment(horario, "HH:mm").add(20,'minutes').format("HH:mm")
+            const row = await this.#atendimentoSchema.findOne({
+                where:{
+                    tipoServico: 'Outros',
+                    horario: {
+                        [Op.between]: [horario,horarios] 
+                    }
+                }
+            })
+            if(row){
+                atendimentoIntervalo = row.horario
+            }     
+        }
+
+        const validaAtendimento = atendimento.validarConflitoHorario(horario,atendimentoIntervalo)
+        
+        if(validaAtendimento){
+            a = await this.#atendimentoSchema.create(
+            {
+                nomeCliente: atendimento.nomeCliente,
+                telefone: atendimento.telefone,
+                horario: atendimento.horario,      
+                data: atendimento.data,
+                dataNascimento: atendimento.dataNascimento,
+                tipoServico: atendimento.tipoServico,
+                profissional: atendimento.profissional,
+            }
+            )  
+        }
+        return a
     }
 
     async atualizarAtendimento(

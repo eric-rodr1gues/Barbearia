@@ -14,14 +14,14 @@ class AtendimentoController{
 
     async atendimentoCreateView(req, res){
 
-        const usuarios = await this.UsuarioService.buscarTodosUsuarios()
+        const usuarios = await this.usuarioService.buscarTodosUsuarios()
 
         res.render("Atendimento/CreateView", { usuarios: usuarios})
     }
 
     async atendimentoEditView(req, res){
         const atendimento = await this.atendimentoService.buscarAtendimento(req.params.id)
-        const usuarios = await this.UsuarioService.buscarTodosUsuarios()
+        const usuarios = await this.usuarioService.buscarTodosUsuarios()
         res.render("Atendimento/EditView", {atendimento: atendimento, usuarios: usuarios})
     }
 
@@ -35,8 +35,13 @@ class AtendimentoController{
             req.body.tipoServico,
             req.body.profissional
         )
-
-        res.json({ atendimento: atendimento })
+        if(!atendimento){
+            return res.status(409).json({
+                message: 'Conflito de horário'
+            })
+        }
+        
+        res.json({atendimento:{id:atendimento.id}})
     }
 
     async atendimentoDeleteAsync(req, res){

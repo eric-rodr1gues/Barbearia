@@ -72,7 +72,7 @@
 
         .btn-custom:hover{
             transform: translateY(-2px);
-            opacity: 40px;
+            opacity: 0.9;
         }
 
         .sidebar{
@@ -168,83 +168,92 @@
             <a href="/user/create" class="menu-item">
                 <i class="bi bi-person-plus"></i>
             </a>
-            <a href="/user/list" class="menu-item menu-active">
+            <a href="/user/list" class="menu-item">
                 <i class="bi bi-person"></i>
+            </a>
+            <a href="/atendimento/create" class="menu-item menu-active">
+                <i class="bi bi-calendar-plus"></i>
+            </a>
+            <a href="/user/list" class="menu-item">
+                <i class="bi bi-calendar-check"></i>
             </a>
         </div>
     </div>
-    <div>
+    <div class="content">
         <div class="container-custom">
-            <form>
-                <h1 class="title">Cadastro de Atendimento</h1>
-                <p class="subtitle">Agende seu horário para o atendimento</p>
-                <div class="mb-3">
-                    <div>
-                        <label for="nomeCliente" class="form-label">Nome do cliente</label>
+            <a href="/atendimento/list" class="back-btn">← Voltar para lista</a>
+            <form id="formEditAtendimento">
+                <h1 class="title">Edição de Atendimento</h1>
+                <p class="subtitle">Atualize as informações do atendimento</p>
+                <input value="<%= atendimento.id %>" type="text" id="atendimentoId" hidden>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="nomeCliente" class="form-label">Nome do cliente</label>
+                        </div>
+                        <div>
+                            <input type="text" value="<%= atendimento.nomeCliente %>" id="nomeCliente" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="telefone" class="form-label">Telefone</label>
+                        </div>
+                        <div>
+                            <input value="<%= atendimento.telefone %>" type="tel" id="telefone" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="horario" class="form-label">Horário</label>
+                        </div>
+                        <div>
+                            <input value="<%= atendimento.horario %>" type="time" id="horario" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="data" class="form-label">Data do Atendimento</label>
+                        </div>
+                        <div>
+                            <input value="<%= atendimento.data %>" type="date" id="data" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                        </div>
+                        <div>
+                            <input value="<%= atendimento.dataNascimento %>" type="date" id="dataNascimento" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="tipoServico" class="form-label">Tipo de Serviço</label>
+                        </div>
+                        <div>
+                            <select id="tipoServico" class="form-control">
+                                <option value="Corte de Cabelo" <%= atendimento.tipoServico === 'Corte de Cabelo' ? 'selected' : '' %>>Corte de Cabelo</option>        
+                                <option value="Barba" <%= atendimento.tipoServico === 'Barba' ? 'selected' : '' %>>Barba</option>
+                                <option value="Sobrancelha" <%= atendimento.tipoServico === 'Sobrancelha' ? 'selected' : '' %>>Sobrancelha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div>
+                            <label for="profissional" class="form-label">Profissional</label>
+                        </div>
+                        <div>
+                            <select id="profissional" class="form-control">
+                                <% for(const usuario of usuarios){ %>
+                                    <option value="<%= usuario.id %>"<%= String(atendimento.profissional) === String(usuario.id) ? 'selected' : '' %>><%= usuario.nome %></option>
+                                <% } %> 
+                            </select>
+                        </div>
                     </div>
                     <div>
-                        <input type="text" id="nomeCliente" class="form-control">
+                        <button id="btnCadastrarAtendimento" type="submit" class="btn-custom">Salvar alterações</button>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="telefone" class="form-label">Telefone</label>
-                    </div>
-                    <div>
-                        <input type="email" id="telefone" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="horario" class="form-label">Horário</label>
-                    </div>
-                    <div>
-                        <input type="password" id="horario" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="data" class="form-label">Data do Atendimento</label>
-                    </div>
-                    <div>
-                        <input type="date" id="data" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
-                    </div>
-                    <div>
-                        <input type="date" id="dataNascimento" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="tipoServico" class="form-label">Tipo de Serviço</label>
-                    </div>
-                    <div>
-                        <select id="tipoServico" class="form-control">
-                            <option value="">Selecione o Serviço</option>
-                            <option>Corte de Cabelo</option>
-                            <option>Barba</option>
-                            <option>Sobrancelha</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="profissional" class="form-label">Profissional</label>
-                    </div>
-                    <div>
-                        <select name="profissional">
-                            <% for(const usuario of usuarios){ %>
-                                <option value="<%=usuario.id %>" <% atendimento.profissional == usuario.id ? "selected": "" %> selected><%=usuario.nome %></option> 
-                            <% } %> 
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <button id="btnCadastrarAtendimento" type="submit" class="btn-custom">Cadastrar o atendimento</button>
                 </div>
             </form>
         </div>
@@ -253,76 +262,71 @@
 </body>
 <script>
 
-    const btnCadastrarUsuario = document.getElementById("btnCadastrarUsuario")
-    
-    btnCadastrarUsuario.addEventListener("click", cadastrarUsuario)
+    const form = document.getElementById("formEditAtendimento")
+    form.addEventListener("submit", atualizarAtendimento)
 
-    async function cadastrarUsuario(e){
+    async function atualizarAtendimento(e){
         e.preventDefault()
 
-        const id = document.getElementById("usuarioId")
-        const username = document.getElementById("username")
-        const email = document.getElementById("email")
-        const senha = document.getElementById("senha")
+        const id = document.getElementById("atendimentoId")
+        const nomeCliente = document.getElementById("nomeCliente")
+        const telefone = document.getElementById("telefone")
+        const horario = document.getElementById("horario")
+        const data = document.getElementById("data")
+        const dataNascimento = document.getElementById("dataNascimento")
+        const tipoServico = document.getElementById("tipoServico")
+        const profissional = document.getElementById("profissional")
 
-        if(username.value === "" || email.value === ""){
-            Swal.fire({
-                title: 'Campos obrigatórios',
-                text: 'Preencha username e email.',
-                icon: 'warning',
-                confirmButtonColor: '#b57edc'
-            })
-            return
-        }
-        
-        try{
-            const url = "/user/edit"
+         try{
+            const url = "/atendimento/edit"
             const response = await fetch(url, {
                 method:'PUT',
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify(
-                    {
-                        id: id.value,
-                        username: username.value,
-                        email: email.value,
-                        senha: senha.value,
-                    })
-                })
+                body: JSON.stringify({
+                    id: id.value,
+                    nomeCliente: nomeCliente.value,
+                    telefone: telefone.value,
+                    horario: horario.value,
+                    data: data.value,
+                    dataNascimento: dataNascimento.value,
+                    tipoServico: tipoServico.value,
+                    profissional: profissional.value
+            })
+        })
+        const dataResponse = await response.json() 
+        if(!response.ok){
+            Swal.fire({
+                title: 'Erro!',
+                text:'Não foi possível atualizar.',
+                icon:'error',
+                confirmButtonColor: '#b57edc'
+            })
+            return
+            }
 
-                const data = await response.json()
+            Swal.fire({
+            title: 'Atualizado!',
+            text: 'Atendimento atualizado com sucesso.',
+            icon: 'success',
+            confirmButtonColor: '#b57edc'
+            })
 
-                if(!response.ok){
-                    Swal.fire({
-                        title: 'Erro!',
-                        text:'Não foi possível atualizar.',
-                        icon:'error',
-                        confirmButtonColor: '#b57edc'
-                    })
-                    return
-                }
-
-                Swal.fire({
-                    title: 'Atualizado',
-                    text: 'Usuário atualizado com sucesso',
-                    icon: 'success',
-                    confirmButtonColor: '#b57edc'
-                })
-
-                console.log(data)
-                setTimeout(() => {
-                    window.location.href = '/user/list'
-                },1500)    
-        }catch(erro){
+            console.log(dataResponse)
+            setTimeout(() => {
+            window.location.href = '/atendimento/list'
+            },1500)
+            
+            }catch(erro){
             console.log(erro)
             Swal.fire({
                 title: 'Erro interno',
-                text:'Tente novamente',
+                text:'Tente novamente.',
                 icon: 'error',
                 confirmButtonColor: '#b57edc'
-            })
-        }
+                })   
+            }
 
     }
 

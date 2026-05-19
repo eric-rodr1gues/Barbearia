@@ -21,13 +21,6 @@
             background: linear-gradient(135deg, #3c404e, #201d35);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 30px;
-        }
-
-        .main-container{
-            padding: 40px;
         }
 
         .container-custom{
@@ -121,6 +114,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 20px;
 
             font-size: 1.2rem;
         }
@@ -139,12 +133,33 @@
         .content{
             margin-left: 260px;
             width: calc(100% - 260px);
+            min-height: 100vh;
 
             display: flex;
             justify-content: center;
             align-items: center;
 
             padding: 40px;
+        }
+
+        .subtitle{
+            text-align: center;
+            color: #888;
+            margin-top: -15px;
+            margin-bottom: 30px;
+        }
+
+        .row{
+            row-gap: 5px;
+        }
+
+        @media(max-width: 768px){
+            .container-custom{
+                padding: 25px;
+            }
+            .title{
+                font-size: 2rem;
+            }
         }
 
     </style>
@@ -156,86 +171,98 @@
             <h2 class="logo-title">Barbearia Digital</h2>
         </div>
         <div class="sidebar-menu">
-            <a href="/user/create" class="menu-item menu-active">
-                <i class="bi bi-calendar-plus"></i>
+            <a href="/user/create" class="menu-item">
+                <i class="bi bi-person-plus"></i>
             </a>
             <a href="/user/list" class="menu-item">
+                <i class="bi bi-person"></i>
+            </a>
+            <a href="/atendimento/create" class="menu-item menu-active">
+                <i class="bi bi-calendar-plus"></i>
+            </a>
+            <a href="/atendimento/list" class="menu-item">
                 <i class="bi bi-calendar-check"></i>
             </a>
         </div>
     </div>
-    <div>
+    <div class="content">
         <div class="container-custom">
-            <form>
+            <form id="formAtendimento">
                 <h1 class="title">Cadastro de Atendimento</h1>
                 <p class="subtitle">Agende seu horário para o atendimento</p>
-                <div class="mb-3">
-                    <div>
-                        <label for="nomeCliente" class="form-label">Nome do cliente</label>
-                    </div>
-                    <div>
-                        <input type="text" id="nomeCliente" class="form-control">
-                    </div>
+                <div id="areaId" style="display: none;" class="alert alert-success mb-4">
+                    Atendimento criado com protocolo: <strong id="atendimentoIdDisplay"></strong>
                 </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="telefone" class="form-label">Telefone</label>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <div>
+                            <label for="nomeCliente" class="form-label">Nome do cliente</label>
+                        </div>
+                        <div>
+                            <input type="text" id="nomeCliente" class="form-control" placeholder="Ex: Leonardo Garcia" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="telefone" class="form-label" >Telefone</label>
+                        </div>
+                        <div>
+                            <input type="tel" id="telefone" class="form-control" placeholder="(DD) 00000-0000" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="horario" class="form-label">Horário</label>
+                        </div>
+                        <div>
+                            <input type="time" id="horario" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="data" class="form-label">Data do Atendimento</label>
+                        </div>
+                        <div>
+                            <input type="date" id="data" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                        </div>
+                        <div>
+                            <input type="date" id="dataNascimento" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div>
+                            <label for="tipoServico" class="form-label">Tipo de Serviço</label>
+                        </div>
+                        <div>
+                            <select id="tipoServico" class="form-control" required>
+                                <option value="">Selecione o Serviço</option>
+                                <option>Corte de Cabelo</option>
+                                <option>Barba</option>
+                                <option>Sobrancelha</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div>
+                            <label for="profissional" class="form-label">Profissional</label>
+                        </div>
+                        <div>
+                            <select id="profissional" class="form-control">
+                                <option value="">Selecione um profissional</option>
+                                <% for(const usuario of usuarios){ %>
+                                    <option value="<%= usuario.id %>"><%= usuario.nome %></option>
+                                <% } %> 
+                            </select>
+                        </div>
                     </div>
                     <div>
-                        <input type="email" id="telefone" class="form-control">
+                        <button id="btnCadastrarAtendimento" type="submit" class="btn-custom">Cadastrar o atendimento</button>
                     </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="horario" class="form-label">Horário</label>
-                    </div>
-                    <div>
-                        <input type="password" id="horario" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="data" class="form-label">Data do Atendimento</label>
-                    </div>
-                    <div>
-                        <input type="date" id="data" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
-                    </div>
-                    <div>
-                        <input type="date" id="dataNascimento" class="form-control">
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="tipoServico" class="form-label">Tipo de Serviço</label>
-                    </div>
-                    <div>
-                        <select id="tipoServico" class="form-control">
-                            <option value="">Selecione o Serviço</option>
-                            <option>Corte de Cabelo</option>
-                            <option>Barba</option>
-                            <option>Sobrancelha</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <div>
-                        <label for="profissional" class="form-label">Profissional</label>
-                    </div>
-                    <div>
-                        <select name="profissional">
-                            <% for(const usuario of usuarios){ %>
-                                <option value="<%=usuario.id %>"><%=usuario.nome %></option> 
-                            <% } %> 
-                        </select>
-                    </div>
-                </div>
-                <div>
-                    <button id="btnCadastrarAtendimento" type="submit" class="btn-custom">Cadastrar o atendimento</button>
                 </div>
             </form>
         </div>
@@ -243,13 +270,13 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 <script>
-
-    const btnCadastrarAtendimento = document.getElementById("btnCadastrarAtendimento")
-    
-    btnCadastrarAtendimento.addEventListener("click", cadastrarAtendimento)
+    const form = document.getElementById("formAtendimento")
+    form.addEventListener("submit", cadastrarAtendimento)
 
     async function cadastrarAtendimento(e){
         e.preventDefault()
+
+        const btnCadastrarAtendimento = document.getElementById("btnCadastrarAtendimento")
 
         const nomeCliente = document.getElementById("nomeCliente")
         const telefone = document.getElementById("telefone")
@@ -273,58 +300,72 @@
                 icon: 'warning',
                 confirmButtonColor: 'rgb(93, 93, 139)'
             })
-        } 
+            return
+        }
+
+        btnCadastrarAtendimento.innerText = "Agendando..."
+        btnCadastrarAtendimento.disabled = true
+
+        const payload = {
+            nomeCliente: nomeCliente.value,
+            telefone: telefone.value,
+            horario: horario.value,
+            data: data.value,
+            dataNascimento: dataNascimento.value,
+            tipoServico: tipoServico.value,
+            profissional: profissional.value     
+        }
+
 
         try{
-            const url = "/user/create"
+            const url = "/atendimento/create"
             const response = await fetch(url, {
                 method:'POST',
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify(
-                    {
-                        nomeCliente: nomeCliente.value,
-                        telefone: telefone.value,
-                        horario: horario.value,
-                        data: data.value,
-                        dataNascimento: dataNascimento.value,
-                        tipoServico: tipoServico.value,
-                        profissional: profissional.value,
+                body: JSON.stringify(playload)
+            })
+
+            const dados = await response.json()
+            console.log(dados)
+
+            if(response.ok){ 
+                if(dados.atendimento){
+                    const protocolo = document.getElementById("atendimentoIdDisplay")
+                    if(protocolo && dados?.atendimento?.id){
+                        document.getElementById("areaId").style.display = "block"
+                        document.getElementById("atendimentoIdDisplay").innerText = `#${dados.atendimento.id}`
                     }
-                )
-            })
 
-            const data = await response.json()
+                    Swal.fire({
+                        title: 'Atendimento agendado!',
+                        text: 'Cadastro realizado com sucesso.',
+                        icon: 'success',
+                        confirmButtonColor: '#b57edc'
+                    })
+                    form.reset()
 
-            if(!response.ok){
+                    setTimeout(() => {
+                        window.location.href = "/atendimento/list"
+                    }, 2000)
+
+                } else{
+                    Swal.fire({
+                        title:'Erro',
+                        text:'Conflito de horário',
+                        icon: 'error',
+                        confirmButtonColor:'#b57edc'
+                    })
+                }
+            } else{
                 Swal.fire({
-                    title: 'Erro!',
-                    text: 'Não foi possível cadastrar.',
+                    title: 'Erro interno',
+                    text: dados.message || 'Não foi possível cadastrar',
                     icon: 'error',
-                    confirmButtonColor: 'rgb(93, 93, 139)'
-                })
-                return
+                    confirmButtonColor: '#b57edc'
+                }) 
             }
-            Swal.fire({
-                title: 'Cadastro realizado!',
-                text: 'Usuário cadastrado com sucesso.',
-                icon: 'success',
-                confirmButtonColor: 'rgb(93, 93, 139)'
-            })
-            console.log(data)
-
-            nomeCliente.value = ""
-            telefone.value = ""
-            horario.value = ""
-            data.value = ""
-            dataNascimento.value = ""
-            tipoServico.value = ""
-            profissional.value = ""
-
-            setTimeout(() => {
-                window.location.href = "/user/list"
-            },1500)
         }catch(erro){
             console.log(erro)
             
@@ -334,8 +375,10 @@
                 icon: 'error',
                 confirmButtonColor: 'rgb(93, 93, 139)'
             })
+        }finally{
+            btnCadastrarAtendimento.innerText = "Agendar"
+            btnCadastrarAtendimento.disabled = false
         }
-
     }
 
 </script>

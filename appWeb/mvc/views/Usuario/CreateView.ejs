@@ -147,6 +147,13 @@
             padding: 40px;
         }
 
+        .subtitle{
+            text-align: center;
+            color: #888;
+            margin-top: -15px;
+            margin-bottom: 30px;
+        }
+
     </style>
 
 </head>
@@ -162,6 +169,12 @@
             <a href="/user/list" class="menu-item">
                 <i class="bi bi-person"></i>
             </a>
+            <a href="/atendimento/create" class="menu-item">
+                <i class="bi bi-calendar-plus"></i>
+            </a>
+            <a href="/atendimento/list" class="menu-item">
+                <i class="bi bi-calendar-check"></i>
+            </a>
         </div>
     </div>
     <div>
@@ -174,7 +187,7 @@
                         <label for="username" class="form-label">Username</label>
                     </div>
                     <div>
-                        <input type="text" id="username" class="form-control">
+                        <input type="text" id="username" class="form-control" placeholder="Ex: Leonardo Garcia">
                     </div>
                 </div>
                 <div class="mb-3">
@@ -182,7 +195,7 @@
                         <label for="email" class="form-label">E-mail</label>
                     </div>
                     <div>
-                        <input type="email" id="email" class="form-control">
+                        <input type="email" id="email" class="form-control" placeholder="Ex: leo@email.com">
                     </div>
                 </div>
                 <div class="mb-4">

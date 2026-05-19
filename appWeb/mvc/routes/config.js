@@ -12,7 +12,6 @@ router.get("/user/edit/:id", (req, res) => UsuarioController.usuarioEditView(req
 router.get("/user/list", (req, res) => UsuarioController.usuarioListView(req, res))
 router.delete("/user/delete/:id", (req, res) => UsuarioController.usuarioDeleteAsync(req, res))
 
-router.get("/atendimento/index", (req, res) => AtendimentoController.index(req, res))
 router.post("/atendimento/create", (req, res) => AtendimentoController.atendimentoPostAsync(req, res))
 router.get("/atendimento/create", (req, res) => AtendimentoController.atendimentoCreateView(req, res))
 router.put("/atendimento/edit", (req, res) =>AtendimentoController.atendimentoPutAsync(req, res))

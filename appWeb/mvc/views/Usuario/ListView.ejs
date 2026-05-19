@@ -137,6 +137,13 @@
             padding: 40px;
         }
 
+        .subtitle{
+            text-align: center;
+            color: #888;
+            margin-top: -15px;
+            margin-bottom: 30px;
+        }
+
         @media(max-width: 760px){
             .content{
                 margin-left: 100px;
@@ -178,11 +185,18 @@
             <a href="/user/list" class="menu-item menu-active">
                 <i class="bi bi-person"></i>
             </a>
+            <a href="/atendimento/create" class="menu-item">
+                <i class="bi bi-calendar-plus"></i>
+            </a>
+            <a href="/atendimento/list" class="menu-item">
+                <i class="bi bi-calendar-check"></i>
+            </a>
         </div>
     </div>
     <div class="content">
         <div class="table-container">
             <h1 class="title">Lista de Usuários</h1>
+            <p class="subtitle">Acompanhe a lista de Usuários</p>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead>

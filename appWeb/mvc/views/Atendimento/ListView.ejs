@@ -38,6 +38,7 @@
             padding: 40px;
             border-radius: 25px;
             width: 60%;
+            max-width: 1100px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
@@ -137,6 +138,13 @@
             padding: 40px;
         }
 
+        .subtitle{
+            text-align: center;
+            color: #888;
+            margin-top: -15px;
+            margin-bottom: 30px;
+        }
+
         @media(max-width: 760px){
             .content{
                 margin-left: 100px;
@@ -175,35 +183,50 @@
             <a href="/user/create" class="menu-item">
                 <i class="bi bi-person-plus"></i>
             </a>
-            <a href="/user/list" class="menu-item menu-active">
+            <a href="/user/list" class="menu-item">
                 <i class="bi bi-person"></i>
+            </a>
+            <a href="/atendimento/create" class="menu-item">
+                <i class="bi bi-calendar-plus"></i>
+            </a>
+            <a href="/atendimento/list" class="menu-item menu-active">
+                <i class="bi bi-calendar-check"></i>
             </a>
         </div>
     </div>
     <div class="content">
         <div class="table-container">
-            <h1 class="title">Lista de Usuários</h1>
+            <h1 class="title">Lista de Atendimentos</h1>
+            <p class="subtitle">Acompanhe a agenda de atendimentos</p>
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Senha</th>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Telefone</th>
+                            <th>Horário</th>
+                            <th>Data</th>
+                            <th>Nascimento</th>
+                            <th>Serviço</th>
+                            <th>Profissional</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for(usuario of usuarios) {%>
+                        <% for(const atendimento of atendimentos) {%>
                             <tr>
-                                <td><%= usuario.id %></td>
-                                <td><%= usuario.nome %></td>
-                                <td><%= usuario.email %></td>
-                                <td><%= usuario.senha %></td>
+                                <td><%= atendimento.id %></td>
+                                <td><%= atendimento.nomeCliente %></td>
+                                <td><%= atendimento.telefone %></td>
+                                <td><%= atendimento.horario %></td>
+                                <td><%= atendimento.data %></td>
+                                <td><%= atendimento.dataNascimento %></td>
+                                <td><%= atendimento.tipoServico %></td>
+                                <td><%= atendimento.profissional %></td>
                                 <td class="d-flex gap-2">
-                                    <a href="/user/edit/<%= usuario.id %>" class="btn-edit">Editar</a>
-                                    <button onclick="apagarUsuario('<%= usuario.id %>')" id="btnApagar" class="btn-delete" type="button">Apagar</button>
+                                    <a href="/atendimento/edit/<%= atendimento.id %>" class="btn-edit">Editar</a>
+                                    <button onclick="apagarAtendimento('<%= atendimento.id %>')" id="btnApagar" class="btn-delete" type="button">Apagar</button>
                                 </td>
                             </tr>
                         <% } %>
@@ -216,23 +239,21 @@
 </body>
 
 <script>
-    async function apagarUsuario(id){
+    async function apagarAtendimento(id){
 
         const resultado = await Swal.fire({
             title: 'Deseja apagar?',
-            text: 'Essa ação não poderá ser desfeita.',
+            text: 'O atendimento será excluído.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: 'rgb(93, 93, 139)',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sim, apagar',
             cancelButtonText: 'Cancelar',
-            background: '#fff',
-            color: '#555'
         })
 
         if(resultado.isConfirmed){
-           const url = "/user/delete/"+id
+           const url = "/atendimento/delete/"+id
             const response = await fetch(url, {method:'DELETE'})
 
             const data = await response.json()
@@ -249,7 +270,7 @@
 
             Swal.fire({
                 title: 'Apagado!',
-                text: 'Usuário removido com sucesso.',
+                text: 'Atendimento removido com sucesso.',
                 icon: 'success',
                 confirmButtonColor: 'rgb(93, 93, 139)'
             })
