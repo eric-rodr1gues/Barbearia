@@ -92,11 +92,13 @@ class AtendimentoService {
         let a = null
 
         let atendimentoIntervalo = null 
-        if(tipoServico == 'Corte de cabelo'){
+        if(tipoServico == 'Corte de Cabelo'){
             const horarios = moment(horario, "HH:mm").add(45,'minutes').format("HH:mm") //horario -> horarioAtendimento e horarios -> horario
             const row = await this.#atendimentoSchema.findOne({
                 where:{
-                    tipoServico: 'Corte de cabelo',
+                    tipoServico: 'Corte de Cabelo',
+                    data: data,
+                    profissional: profissional,
                     horario: {
                         [Op.between]: [horario,horarios] //entre horarios
                     }
@@ -110,6 +112,8 @@ class AtendimentoService {
             const row = await this.#atendimentoSchema.findOne({
                 where:{
                     tipoServico: 'Barba',
+                    data: data,
+                    profissional: profissional,
                     horario: {
                         [Op.between]: [horario,horarios] 
                     }
@@ -123,6 +127,8 @@ class AtendimentoService {
             const row = await this.#atendimentoSchema.findOne({
                 where:{
                     tipoServico: 'Sobrancelha',
+                    data: data,
+                    profissional: profissional,
                     horario: {
                         [Op.between]: [horario,horarios] 
                     }
@@ -136,6 +142,8 @@ class AtendimentoService {
             const row = await this.#atendimentoSchema.findOne({
                 where:{
                     tipoServico: 'Outros',
+                    data: data,
+                    profissional: profissional,
                     horario: {
                         [Op.between]: [horario,horarios] 
                     }

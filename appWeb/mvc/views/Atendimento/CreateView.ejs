@@ -241,9 +241,10 @@
                         <div>
                             <select id="tipoServico" class="form-control" required>
                                 <option value="">Selecione o Serviço</option>
-                                <option>Corte de Cabelo</option>
-                                <option>Barba</option>
-                                <option>Sobrancelha</option>
+                                <option value="Corte de Cabelo">Corte de Cabelo</option>
+                                <option value="Barba">Barba</option>
+                                <option value="Sobrancelha">Sobrancelha</option>
+                                <option value="Outros">Outros</option>
                             </select>
                         </div>
                     </div>
@@ -324,7 +325,7 @@
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify(playload)
+                body: JSON.stringify(payload)
             })
 
             const dados = await response.json()
@@ -352,15 +353,15 @@
 
                 } else{
                     Swal.fire({
-                        title:'Erro',
-                        text:'Conflito de horário',
+                        title:'Horário Indisponível',
+                        text:'Escolha outro horário',
                         icon: 'error',
                         confirmButtonColor:'#b57edc'
                     })
                 }
             } else{
                 Swal.fire({
-                    title: 'Erro interno',
+                    title: 'Horário Indisponível',
                     text: dados.message || 'Não foi possível cadastrar',
                     icon: 'error',
                     confirmButtonColor: '#b57edc'
